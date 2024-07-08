@@ -1,0 +1,35 @@
+# Maven target directory
+/target/
+
+# IntelliJ IDEA files
+/.idea/
+/*.iml
+/*.ipr
+
+# Log files and temporary files
+*.log
+*.tmp
+
+# Build output directories
+/build/
+/out/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# JUnit and coverage reports
+/test-output/
+/surefire-reports/
+/coverage/
+/cobertura/
+
+# IDE-specific files
+/.vscode/
+*.swp
+
+# Compiled classes and jars
+**/target/
+
+# Application specific logs and data
+*.dat
