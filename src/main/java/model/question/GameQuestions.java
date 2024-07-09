@@ -29,9 +29,9 @@ public class GameQuestions {
         if (allQuestionsFromSource == null) {
             throw new NullPointerException("List is null!");
         }
-        if (allQuestionsFromSource.size() < Director.QUANTITY_OF_LEVELS) {
+        if (allQuestionsFromSource.size() != Director.QUANTITY_OF_LEVELS) {
             throw new IllegalArgumentException(
-                    String.format("File with questions should contains > %d questions!", Director.QUANTITY_OF_LEVELS)
+                    String.format("File with questions should contain exactly %d questions!", Director.QUANTITY_OF_LEVELS)
             );
         }
 
@@ -41,7 +41,22 @@ public class GameQuestions {
         allQuestionsFromSource.stream().limit(Director.QUANTITY_OF_LEVELS).forEach(question -> questionsForGame.put(
                 ai.get(), LevelQuestions.of(allQuestionsFromSource, ai.getAndIncrement()).draw()));
 
+        validateQuestionsMap(questionsForGame);
+
         return new GameQuestions(questionsForGame);
+    }
+
+    private static void validateQuestionsMap(Map<Integer, Question> questionsByLevel) {
+        if (questionsByLevel.size() != Director.QUANTITY_OF_LEVELS) {
+            throw new IllegalArgumentException(
+                    String.format("Map should contain exactly %d questions!", Director.QUANTITY_OF_LEVELS)
+            );
+        }
+        for (int i = 1; i <= Director.QUANTITY_OF_LEVELS; i++) {
+            if (!questionsByLevel.containsKey(i)) {
+                throw new IllegalArgumentException(String.format("Missing question for level %d!", i));
+            }
+        }
     }
 
 }

@@ -41,4 +41,8 @@ public class LevelQuestions {
     public Question draw() {
         return questions.get(rnd.nextInt(questions.size()));
     }
+
+    List<Question> toList() {
+        return this.questions;
+    }
 }
