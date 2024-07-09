@@ -5,10 +5,14 @@ import java.util.Scanner;
 public final class InputUtil {
 
     public static final String DEFAULT_FILEPATH = "src/main/resources/QuestionsExample.txt";
-    private static final Scanner SCANNER = new Scanner(System.in);
+    private static Scanner SCANNER = new Scanner(System.in);
 
     private InputUtil() {
         throw new UnsupportedOperationException("This class is an util class!");
+    }
+
+    public static void useScanner(Scanner scanner) {
+        InputUtil.SCANNER = scanner;
     }
 
     public static int getUserInput(String message, int min, int max) {
