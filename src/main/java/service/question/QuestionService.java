@@ -1,5 +1,6 @@
-package service;
+package service.question;
 
+import lombok.Getter;
 import model.question.Answer;
 import model.question.Question;
 
@@ -7,12 +8,18 @@ import java.util.*;
 
 public class QuestionService {
     private final String content;
+    @Getter
     private final Map<String, Answer> answers;
     private static final Random rnd = new Random();
 
-    public QuestionService(Question question) {
-        this.content = question.getContent();
-        this.answers = new LinkedHashMap<>();
+    QuestionService(String content, Map<String, Answer> answers) {
+        this.content = content;
+        this.answers = answers;
+    }
+
+    public static QuestionService of(Question question) {
+        String content = question.getContent();
+        Map<String, Answer> answers = new LinkedHashMap<>();
         List<Answer> answerList = new ArrayList<>(question.getAnswers());
         Collections.shuffle(answerList, rnd);
 
@@ -20,6 +27,8 @@ public class QuestionService {
         for (int i = 0; i < answerList.size(); i++) {
             answers.put(labels[i], answerList.get(i));
         }
+
+        return new QuestionService(content, answers);
     }
 
     public void show() {
@@ -38,9 +47,5 @@ public class QuestionService {
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElseThrow();
-    }
-
-    public Map<String, Answer> getAnswers() {
-        return answers;
     }
 }

@@ -1,3 +1,5 @@
+package app;
+
 import service.game.Game;
 import util.InputUtil;
 

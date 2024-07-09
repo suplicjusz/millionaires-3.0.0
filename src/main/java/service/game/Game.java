@@ -6,7 +6,7 @@ import lombok.ToString;
 import model.player.Player;
 import model.question.GameQuestions;
 import model.question.Question;
-import service.QuestionService;
+import service.question.QuestionService;
 import service.award.AwardService;
 import service.award.AwardServiceImpl;
 import service.lifebuoy.AskAudienceLifebuoy;
@@ -76,7 +76,7 @@ public final class Game {
 
         while (canContinue && currentLevel <= QUANTITY_OF_LEVELS) {
             Question question = questions.get(currentLevel);
-            QuestionService questionService = new QuestionService(question);
+            QuestionService questionService = QuestionService.of(question);
 
             System.out.println("Question for level " + currentLevel + ":");
             questionService.show();
