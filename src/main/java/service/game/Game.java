@@ -24,16 +24,16 @@ import static util.InputUtil.getUserInput;
 @EqualsAndHashCode
 @ToString
 public final class Game {
-    private final Player player;
-    private final Map<String, LocalDateTime> times;
-    private final Map<Integer, Question> questions;
-    private final Map<Integer, Lifebuoy> lifebuoys;
-    private final AwardService awardService;
+    final Player player;
+    final Map<String, LocalDateTime> times;
+    final Map<Integer, Question> questions;
+    final Map<Integer, Lifebuoy> lifebuoys;
+    final AwardService awardService;
 
-    private boolean canContinue;
-    private int currentLevel;
+    boolean canContinue;
+    int currentLevel;
 
-    private Game(Player player,
+    Game(Player player,
                  Map<String, LocalDateTime> times,
                  Map<Integer, Question> questions,
                  Map<Integer, Lifebuoy> lifebuoys,
@@ -109,7 +109,7 @@ public final class Game {
         }
 
         player.setTotalWinnings(totalWinnings);
-        System.out.printf(WINNINGS + "%n", player.getName(), totalWinnings.toString());
+        System.out.printf(WINNINGS + "%n", player.getName(), totalWinnings);
         times.put("END", LocalDateTime.now());
     }
 

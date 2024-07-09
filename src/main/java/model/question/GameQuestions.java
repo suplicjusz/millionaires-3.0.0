@@ -8,7 +8,8 @@ import util.Director;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Representation of map of questions of all levels
@@ -29,23 +30,31 @@ public class GameQuestions {
         if (allQuestionsFromSource == null) {
             throw new NullPointerException("List is null!");
         }
-        if (allQuestionsFromSource.size() != Director.QUANTITY_OF_LEVELS) {
-            throw new IllegalArgumentException(
-                    String.format("File with questions should contain exactly %d questions!", Director.QUANTITY_OF_LEVELS)
-            );
+
+        // Grouping questions by their levels
+        Map<Integer, List<Question>> questionsByLevel = allQuestionsFromSource.stream()
+                .collect(Collectors.groupingBy(Question::getLevel));
+
+        // Creating a map to hold the final questions for the game
+        Map<Integer, Question> questionsForGame = new HashMap<>();
+
+        for (int level = 1; level <= Director.QUANTITY_OF_LEVELS; level++) {
+            List<Question> levelQuestions = questionsByLevel.get(level);
+            if (levelQuestions == null || levelQuestions.isEmpty()) {
+                throw new IllegalArgumentException("Missing questions for level " + level);
+            }
+            // Randomly select one question from each level
+            Question selectedQuestion = levelQuestions.get(new Random().nextInt(levelQuestions.size()));
+            questionsForGame.put(level, selectedQuestion);
         }
 
-        var questionsForGame = new HashMap<Integer, Question>();
-
-        AtomicInteger ai = new AtomicInteger(1);
-        allQuestionsFromSource.stream().limit(Director.QUANTITY_OF_LEVELS).forEach(question -> questionsForGame.put(
-                ai.get(), LevelQuestions.of(allQuestionsFromSource, ai.getAndIncrement()).draw()));
-
+        // Validate the final map of questions
         validateQuestionsMap(questionsForGame);
 
         return new GameQuestions(questionsForGame);
     }
 
+    // Validation method to ensure the map has the correct number of levels and questions
     private static void validateQuestionsMap(Map<Integer, Question> questionsByLevel) {
         if (questionsByLevel.size() != Director.QUANTITY_OF_LEVELS) {
             throw new IllegalArgumentException(
@@ -58,5 +67,4 @@ public class GameQuestions {
             }
         }
     }
-
 }
