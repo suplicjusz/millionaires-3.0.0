@@ -25,9 +25,19 @@ public class App {
                 }
             } while (!validPath);
 
-            String playerName = InputUtil.getString("What's your name?");
-            Game game = Game.of(playerName, filepath);
-            game.play();
+            boolean playAgain;
+            do {
+                String playerName = InputUtil.getString("What's your name?");
+                Game game = Game.of(playerName, filepath);
+                game.play();
+
+                // Clear the scanner buffer
+                InputUtil.getString("");
+
+                String userResponse = InputUtil.getString("Do you want to play again? (press 'q' to quit, press Enter to play again)");
+                playAgain = !userResponse.equalsIgnoreCase("q");
+            } while (playAgain);
+
         } finally {
             InputUtil.closeScanner();
         }
